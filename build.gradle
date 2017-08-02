@@ -1,14 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
   repositories {
     jcenter()
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:2.3.3'
-
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
+    classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
   }
 }
 
@@ -18,6 +16,100 @@ allprojects {
   }
 }
 
+
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
+
+def getSvnVersionNumber() {
+  //automate the apk version according to latest revision number in SVN
+  /* try {
+     def stdout = new ByteArrayOutputStream()
+     exec {
+       commandLine 'svn', 'info', '-r', 'HEAD'
+       standardOutput = stdout
+     }
+
+     def commitRevision = (stdout.toString().split("\n")[5]).split(":")[1].trim()
+     println("Commit revision:" + commitRevision.toInteger())
+     return commitRevision.toInteger()
+   } catch (ignored) {
+     return 1;
+   }*/
+
+  return 1
+}
+
+allprojects {
+  ext {
+    //SDK
+    minSdkVersion = 16
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.0'
+
+    versionCode = getSvnVersionNumber();
+    versionName = versionCode + ".0"
+
+
+    //APP RELATED LIBS
+
+    //View binding
+    butterKnifeVersion = '8.6.0'
+    //LOGGING
+    timberVersion = '4.5.1'
+    //RXJAVA 2
+    rxJavaVersion = '2.0.2'
+    rxAndroidVersion = '2.0.1'
+    rxBinding = '2.0.0'
+
+    //DAGGER 2
+    daggerVersion = '2.8'
+    //NETWORK REQUESTS
+    retrofitAdapterVersion = '1.0.0'
+    retrofitVersion = '2.1.0'
+    retrofitConverterVersion = '2.1.0'
+    okHttpVersion = '3.6.0'
+    okHttpInterceptorVersion = '3.6.0'
+    gsonVersion = '2.7'
+    //ANOTATION
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    androidAnnotationsVersion = '26.0.0-alpha1'
+
+    //DESIGN RELATED
+    recyclerViewVersion = '+'
+
+    //DESIGN RELATED
+    supportVersion = '26.0.0-alpha1'
+    supportAppcompatVersion = '26.0.0-alpha1'
+    supportDesignVersion = '26.0.0-alpha1'
+    constraintLayoutVersion = '1.0.2'
+
+
+
+
+    //TESTING
+    junitVersion = '4.12'
+    assertJVersion = '1.7.1'
+    mockitoVersion = '2.6.3'
+    hamcrestVersion = '1.3'
+
+    runnerVersion = '0.5'
+    rulesVersion = '0.5'
+    espRunnerVersion = ''
+    dexmakerVersion = '1.2'
+    espressoVersion = '2.2.2'
+    testingSupportLibVersion = '0.1'
+    powerMockito = '1.6.2'
+
+
+
+
+
+    //BARCODE SCANNER
+    barcodeVersion = '0.0.6-ALPHA'
+
+  }
+}
+
